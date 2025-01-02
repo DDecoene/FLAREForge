@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
 
 
 class TokenType(Enum):

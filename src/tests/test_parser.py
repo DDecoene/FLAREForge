@@ -1,14 +1,15 @@
 import pytest
+
 from FLAREcore.lexer import Lexer, Token, TokenType
 from FLAREcore.parser import (
-    Parser,
     BinaryExpr,
-    LiteralExpr,
-    UnaryExpr,
+    CallExpr,
+    ExpressionStmt,
     FunctionStmt,
     IfStmt,
-    ExpressionStmt,
-    CallExpr,
+    LiteralExpr,
+    Parser,
+    UnaryExpr,
 )
 
 
