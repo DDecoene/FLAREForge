@@ -234,7 +234,7 @@ class Parser:
         if self.match(TokenType.LPAREN):
             self.consume(TokenType.RPAREN, "Expect ')' after expression")
             return GroupingExpr(self.expression())
-        
+
         raise ParseError("No expression statement found")
 
     def match(self, *types: TokenType) -> bool:
