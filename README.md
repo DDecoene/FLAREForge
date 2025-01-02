@@ -1,10 +1,10 @@
-# Prism Programming Language
+# Flare Programming Language
 
-Prism is a multi-paradigm programming language designed to bridge systems and application programming through innovative memory management, flexible typing, and first-class support for heterogeneous computing.
+Flare is a multi-paradigm programming language designed to bridge systems and application programming through innovative memory management, flexible typing, and first-class support for heterogeneous computing.
 
 ## Project Status
 
-This repository contains the bootstrap compiler for Prism, written in Python. The bootstrap compiler will be used to develop the self-hosted compiler in Prism itself.
+This repository contains the bootstrap compiler for Flare, written in Python. The bootstrap compiler will be used to develop the self-hosted compiler in Flare itself.
 
 ### Current Features
 - [ ] Lexical analysis
@@ -22,8 +22,8 @@ This repository contains the bootstrap compiler for Prism, written in Python. Th
 
 ```bash
 # Clone the repository
-git clone https://github.com/prism-lang/prism.git
-cd prism
+git clone https://github.com/DDecoene/FLAREForge.git
+cd Flare
 
 # Create and activate virtual environment
 python -m venv venv

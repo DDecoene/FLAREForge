@@ -1,9 +1,9 @@
 [project]
-name = "prism-lang"
+name = "FLAREcore"
 version = "0.1.0"
-description = "Bootstrap compiler for the Prism programming language"
+description = "Bootstrap compiler for the Flare programming language"
 authors = [
-    {name = "Prism Team", email = "team@prism-lang.org"},
+    {name = "Flare Team", email = "team@FLAREforge.org"},
 ]
 dependencies = [
     "click>=8.0.0",

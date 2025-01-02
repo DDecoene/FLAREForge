@@ -1,5 +1,5 @@
 import pytest
-from prism.lexer import Lexer, Token, TokenType
+from FLAREcore.lexer import Lexer, Token, TokenType
 
 def test_empty_source():
     lexer = Lexer("")
