@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from .lexer import Token, TokenType
 
@@ -232,9 +232,10 @@ class Parser:
             return expr
 
         if self.match(TokenType.LPAREN):
-            expr = self.expression()
             self.consume(TokenType.RPAREN, "Expect ')' after expression")
-            return GroupingExpr(expr)
+            return GroupingExpr(self.expression())
+        
+        raise ParseError("No expression statement found")
 
     def match(self, *types: TokenType) -> bool:
         for type in types:
