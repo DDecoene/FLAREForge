@@ -1,6 +1,4 @@
-import pytest
-
-from FLAREcore.lexer import Lexer, Token, TokenType
+from FLAREcore.lexer import Lexer
 from FLAREcore.parser import (
     BinaryExpr,
     CallExpr,

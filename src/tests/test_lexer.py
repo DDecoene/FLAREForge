@@ -1,5 +1,3 @@
-import pytest
-
 from FLAREcore.lexer import Lexer, Token, TokenType
 
 
