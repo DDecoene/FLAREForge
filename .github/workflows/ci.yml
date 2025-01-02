@@ -25,7 +25,7 @@ jobs:
         pip install .[dev]
     - name: Run tests
       run: |
-        pytest --cov=src/prism
+        pytest --cov=src/FLAREcore
     - name: Lint
       run: |
         black --check src

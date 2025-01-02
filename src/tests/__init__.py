@@ -1,3 +1,3 @@
 """
-Prism Compiler Test Suite
+FLAREcore Compiler Test Suite
 """

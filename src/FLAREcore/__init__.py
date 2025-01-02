@@ -1,3 +1,3 @@
 """
-Prism Programming Language Compiler
+FLARE Programming Language Compiler
 """
