@@ -9,6 +9,18 @@ class TokenType(Enum):
     IF = auto()
     ELSE = auto()
     RETURN = auto()
+    MATCH = auto()
+    CASE = auto()
+    ASYNC = auto()
+    AWAIT = auto()
+    ACTOR = auto()
+    STATE = auto()
+    WITH = auto()
+    FOR = auto()
+    WHILE = auto()
+    CLASS = auto()
+    AS = auto()
+    IN = auto()
 
     # Literals
     IDENTIFIER = auto()
@@ -22,14 +34,27 @@ class TokenType(Enum):
     STAR = auto()
     SLASH = auto()
     EQUALS = auto()
-
+    ARROW = auto()         # ->
+    AND = auto()          # & or 'and'
+    OR = auto()           # | or 'or'
+    XOR = auto()          # ^
+    NOT = auto()          # not
+    LSHIFT = auto()       # <<
+    RSHIFT = auto()       # >>
+    LESS = auto()         # <
+    GREATER = auto()      # >
+    DOUBLE_EQUALS = auto() # ==
+    
     # Delimiters
-    LPAREN = auto()
-    RPAREN = auto()
-    LBRACE = auto()
-    RBRACE = auto()
-    COLON = auto()
-    COMMA = auto()
+    LPAREN = auto()       # (
+    RPAREN = auto()       # )
+    LBRACE = auto()       # {
+    RBRACE = auto()       # }
+    LBRACKET = auto()     # [
+    RBRACKET = auto()     # ]
+    COLON = auto()        # :
+    COMMA = auto()        # ,
+    AT = auto()           # @
 
     # Special
     EOF = auto()
@@ -58,6 +83,21 @@ class Lexer:
             "if": TokenType.IF,
             "else": TokenType.ELSE,
             "return": TokenType.RETURN,
+            "and": TokenType.AND,
+            "or": TokenType.OR,
+            "not": TokenType.NOT,
+            "match": TokenType.MATCH,
+            "case": TokenType.CASE,
+            "async": TokenType.ASYNC,
+            "await": TokenType.AWAIT,
+            "actor": TokenType.ACTOR,
+            "state": TokenType.STATE,
+            "with": TokenType.WITH,
+            "for": TokenType.FOR,
+            "while": TokenType.WHILE,
+            "class": TokenType.CLASS,
+            "as": TokenType.AS,
+            "in": TokenType.IN,
         }
 
     def scan_tokens(self) -> List[Token]:
@@ -80,25 +120,57 @@ class Lexer:
                 self.add_token(TokenType.LBRACE)
             case "}":
                 self.add_token(TokenType.RBRACE)
+            case "[":
+                self.add_token(TokenType.LBRACKET)
+            case "]":
+                self.add_token(TokenType.RBRACKET)
+            case "<":
+                if self.peek() == '<':
+                    self.advance()  # consume second <
+                    self.add_token(TokenType.LSHIFT)
+                else:
+                    self.add_token(TokenType.LESS)
+            case ">":
+                if self.peek() == '>':
+                    self.advance()  # consume second >
+                    self.add_token(TokenType.RSHIFT)
+                else:
+                    self.add_token(TokenType.GREATER)
             case ":":
                 self.add_token(TokenType.COLON)
             case ",":
                 self.add_token(TokenType.COMMA)
+            case "@":
+                self.add_token(TokenType.AT)
             case "+":
                 self.add_token(TokenType.PLUS)
             case "-":
-                self.add_token(TokenType.MINUS)
+                if self.peek() == '>':
+                    self.advance()  # consume the >
+                    self.add_token(TokenType.ARROW)
+                else:
+                    self.add_token(TokenType.MINUS)
             case "*":
                 self.add_token(TokenType.STAR)
             case "/":
                 self.add_token(TokenType.SLASH)
             case "=":
-                self.add_token(TokenType.EQUALS)
+                if self.peek() == '=':
+                    self.advance()  # consume second =
+                    self.add_token(TokenType.DOUBLE_EQUALS)
+                else:
+                    self.add_token(TokenType.EQUALS)
+            case "&":
+                self.add_token(TokenType.AND)
+            case "|":
+                self.add_token(TokenType.OR)
+            case "^":
+                self.add_token(TokenType.XOR)
             case " " | "\r" | "\t":
                 pass  # Ignore whitespace
             case "\n":
                 self.line += 1
-            case '"':
+            case '"' | "'":
                 self.string()
             case _:
                 if self.is_digit(c):
@@ -141,7 +213,9 @@ class Lexer:
             )
 
     def string(self):
-        while not self.is_at_end() and self.peek() != '"':
+        # Get the quote character (single or double)
+        quote = self.source[self.current - 1]
+        while not self.is_at_end() and self.peek() != quote:
             if self.peek() == "\n":
                 self.line += 1
             self.advance()
@@ -151,7 +225,7 @@ class Lexer:
             self.add_token(TokenType.ERROR)
             return
 
-        # The closing "
+        # The closing quote
         self.advance()
 
         # Trim the surrounding quotes
