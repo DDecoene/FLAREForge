@@ -1,89 +1,14 @@
-from dataclasses import dataclass
 from typing import List, Optional, cast
-
 from .lexer import Token, TokenType
-
-
-# AST Node definitions
-@dataclass
-class Expression:
-    pass
-
-
-@dataclass
-class Statement:
-    pass
-
-
-@dataclass
-class BinaryExpr(Expression):
-    left: Expression
-    operator: Token
-    right: Expression
-
-
-@dataclass
-class LiteralExpr(Expression):
-    value: object
-
-
-@dataclass
-class UnaryExpr(Expression):
-    operator: Token
-    right: Expression
-
-
-@dataclass
-class GroupingExpr(Expression):
-    expression: Expression
-
-
-@dataclass
-class VariableExpr(Expression):
-    name: Token
-
-
-@dataclass
-class CallExpr(Expression):
-    callee: Expression
-    paren: Token
-    arguments: List[Expression]
-
-
-@dataclass
-class AssignExpr(Expression):
-    name: Token
-    value: Expression
-
-
-@dataclass
-class FunctionStmt(Statement):
-    name: Token
-    params: List[Token]
-    body: List[Statement]
-
-
-@dataclass
-class ReturnStmt(Statement):
-    keyword: Token
-    value: Optional[Expression]
-
-
-@dataclass
-class IfStmt(Statement):
-    condition: Expression
-    then_branch: Statement
-    else_branch: Optional[Statement]
-
-
-@dataclass
-class ExpressionStmt(Statement):
-    expression: Expression
-
+from .ast import (
+    Expression, Statement, FunctionStmt, IfStmt,
+    ReturnStmt, ExpressionStmt, VariableExpr, CallExpr,
+    AssignExpr, BinaryExpr, LiteralExpr, GroupingExpr,
+    UnaryExpr
+)
 
 class ParseError(Exception):
     pass
-
 
 class Parser:
     def __init__(self, tokens: List[Token]):
@@ -232,8 +157,9 @@ class Parser:
             return expr
 
         if self.match(TokenType.LPAREN):
+            expr = self.expression()
             self.consume(TokenType.RPAREN, "Expect ')' after expression")
-            return GroupingExpr(self.expression())
+            return GroupingExpr(expr)
 
         raise ParseError("No expression statement found")
 
