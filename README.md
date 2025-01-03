@@ -6,6 +6,8 @@ Flare is a multi-paradigm programming language designed to bridge systems and ap
 
 This repository contains the bootstrap compiler for Flare, written in Python. The bootstrap compiler will be used to develop the self-hosted compiler in Flare itself.
 
+Lot's of info and inspiration came from [My First Language Frontend with LLVM Tutorial](https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html)
+
 ### Current Features
 - [ ] Lexical analysis
 - [ ] Parsing
